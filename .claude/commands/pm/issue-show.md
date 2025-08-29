@@ -18,7 +18,7 @@ You are displaying comprehensive information about a GitHub issue and related su
 ### 1. Fetch Issue Data
 - Use `gh issue view #$ARGUMENTS` to get GitHub issue details
 - Look for local task file: first check `.claude/epics/*/$ARGUMENTS.md` (new naming)
-- If not found, search for file with `github:.*issues/$ARGUMENTS` in frontmatter (old naming)
+- If not found, search for file with `local_id: $ARGUMENTS` in frontmatter (old naming)
 - Check for related issues and sub-tasks
 
 ### 2. Issue Overview

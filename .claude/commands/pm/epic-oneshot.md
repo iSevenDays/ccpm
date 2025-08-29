@@ -28,7 +28,7 @@ if ls .claude/epics/$ARGUMENTS/[0-9]*.md 2>/dev/null | grep -q .; then
 fi
 
 # Check if already synced
-if grep -q "github:" .claude/epics/$ARGUMENTS/epic.md; then
+if grep -q "local_id:" .claude/epics/$ARGUMENTS/epic.md; then
   echo "⚠️ Epic already synced to GitHub."
   echo "Use /pm:epic-sync to update."
   exit 1

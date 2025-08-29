@@ -16,7 +16,7 @@ Mark an issue as complete and close it.
 ### 1. Find Local Task File
 
 First check if `.claude/epics/*/$ARGUMENTS.md` exists (new naming).
-If not found, search for task file with `github:.*issues/$ARGUMENTS` in frontmatter (old naming).
+If not found, search for task file with `local_id: $ARGUMENTS` in frontmatter (old naming).
 If not found: "❌ No local task for issue #$ARGUMENTS"
 
 ### 2. Update Local Status

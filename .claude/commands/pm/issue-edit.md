@@ -20,7 +20,7 @@ Edit issue details locally and on GitHub.
 gh issue view $ARGUMENTS --json title,body,labels
 
 # Find local task file
-# Search for file with github:.*issues/$ARGUMENTS
+# Search for file with local_id: $ARGUMENTS
 ```
 
 ### 2. Interactive Edit

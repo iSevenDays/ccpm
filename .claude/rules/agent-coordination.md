@@ -11,9 +11,9 @@ Rules for multiple agents working in parallel within the same epic worktree.
 
 ## Work Stream Assignment
 
-Each agent is assigned a work stream from the issue analysis:
+Each agent is assigned a work stream from the task analysis:
 ```yaml
-# From {issue}-analysis.md
+# From task-analysis.md
 Stream A: Database Layer
   Files: src/db/*, migrations/*
   Agent: backend-specialist
@@ -46,11 +46,11 @@ Make commits atomic and focused:
 ```bash
 # Good - Single purpose commit
 git add src/api/users.ts src/api/users.test.ts
-git commit -m "Issue #1234: Add user CRUD endpoints"
+git commit -m "Add user CRUD endpoints"
 
 # Bad - Mixed concerns
 git add src/api/* src/db/* src/ui/*
-git commit -m "Issue #1234: Multiple changes"
+git commit -m "Multiple changes"
 ```
 
 ## Communication Between Agents
@@ -102,7 +102,7 @@ Stream B:
 ### Conflict Detection
 ```bash
 # If commit fails due to conflict
-git commit -m "Issue #1234: Update"
+git commit -m "Update implementation"
 # Error: conflicts exist
 
 # Agent should report and wait
@@ -167,9 +167,9 @@ When agents need to coordinate:
 When working on completely different files:
 ```bash
 # These can happen simultaneously
-Agent-A: git commit -m "Issue #1234: Update database"
-Agent-B: git commit -m "Issue #1235: Update UI"
-Agent-C: git commit -m "Issue #1236: Add tests"
+Agent-A: git commit -m "Update database schema"
+Agent-B: git commit -m "Update user interface"
+Agent-C: git commit -m "Add test coverage"
 ```
 
 ### Sequential When Needed
@@ -177,13 +177,13 @@ When touching shared resources:
 ```bash
 # Agent A commits first
 git add src/types/index.ts
-git commit -m "Issue #1234: Update type definitions"
+git commit -m "Update type definitions"
 
 # Agent B waits, then proceeds
 # (After A's commit)
 git pull
 git add src/api/users.ts
-git commit -m "Issue #1235: Use new types"
+git commit -m "Use new type definitions"
 ```
 
 ## Best Practices
@@ -201,7 +201,7 @@ git commit -m "Issue #1235: Use new types"
 ```bash
 1. cd ../epic-{name}
 2. git pull
-3. Check {issue}-analysis.md for assignment
+3. Check task-analysis.md for assignment
 4. Update stream-{X}.md with "started"
 5. Begin work on assigned files
 ```

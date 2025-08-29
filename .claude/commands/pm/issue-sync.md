@@ -2,9 +2,9 @@
 allowed-tools: Bash, Read, Write, LS
 ---
 
-# Issue Sync
+# Issue Progress Update
 
-Push local updates as GitHub issue comments for transparent audit trail.
+Update local progress tracking and create comprehensive progress summary.
 
 ## Usage
 ```
@@ -21,34 +21,25 @@ Push local updates as GitHub issue comments for transparent audit trail.
 Before proceeding, complete these validation steps.
 Do not bother the user with preflight checks progress ("I'm not going to ..."). Just do them and move on.
 
-1. **GitHub Authentication:**
-   - Run: `gh auth status`
-   - If not authenticated, tell user: "❌ GitHub CLI not authenticated. Run: gh auth login"
-
-2. **Issue Validation:**
-   - Run: `gh issue view $ARGUMENTS --json state`
-   - If issue doesn't exist, tell user: "❌ Issue #$ARGUMENTS not found"
-   - If issue is closed and completion < 100%, warn: "⚠️ Issue is closed but work incomplete"
-
-3. **Local Updates Check:**
+1. **Local Updates Check:**
    - Check if `.claude/epics/*/updates/$ARGUMENTS/` directory exists
    - If not found, tell user: "❌ No local updates found for issue #$ARGUMENTS. Run: /pm:issue-start $ARGUMENTS"
    - Check if progress.md exists
    - If not, tell user: "❌ No progress tracking found. Initialize with: /pm:issue-start $ARGUMENTS"
 
-4. **Check Last Sync:**
-   - Read `last_sync` from progress.md frontmatter
-   - If synced recently (< 5 minutes), ask: "⚠️ Recently synced. Force sync anyway? (yes/no)"
-   - Calculate what's new since last sync
+2. **Check Last Update:**
+   - Read `last_update` from progress.md frontmatter
+   - If updated recently (< 5 minutes), ask: "⚠️ Recently updated. Force update anyway? (yes/no)"
+   - Calculate what's new since last update
 
-5. **Verify Changes:**
-   - Check if there are actual updates to sync
-   - If no changes, tell user: "ℹ️ No new updates to sync since {last_sync}"
-   - Exit gracefully if nothing to sync
+3. **Verify Changes:**
+   - Check if there are actual updates to record
+   - If no changes, tell user: "ℹ️ No new updates to record since {last_update}"
+   - Exit gracefully if nothing to update
 
 ## Instructions
 
-You are synchronizing local development progress to GitHub as issue comments for: **Issue #$ARGUMENTS**
+You are updating local development progress tracking for: **Issue #$ARGUMENTS**
 
 ### 1. Gather Local Updates
 Collect all local updates for the issue:
@@ -67,19 +58,19 @@ Update the progress.md file frontmatter:
 ---
 issue: $ARGUMENTS
 started: [preserve existing date]
-last_sync: [Use REAL datetime from command above]
+last_update: [Use REAL datetime from command above]
 completion: [calculated percentage 0-100%]
 ---
 ```
 
 ### 3. Determine What's New
-Compare against previous sync to identify new content:
-- Look for sync timestamp markers
+Compare against previous update to identify new content:
+- Look for update timestamp markers
 - Identify new sections or updates
-- Gather only incremental changes since last sync
+- Gather only incremental changes since last update
 
-### 4. Format Update Comment
-Create comprehensive update comment:
+### 4. Create Progress Summary
+Create comprehensive progress summary in local file:
 
 ```markdown
 ## 🔄 Progress Update - {current_date}
@@ -109,26 +100,26 @@ Create comprehensive update comment:
 {commit_summaries}
 
 ---
-*Progress: {completion}% | Synced from local updates at {timestamp}*
+*Progress: {completion}% | Updated locally at {timestamp}*
 ```
 
-### 5. Post to GitHub
-Use GitHub CLI to add comment:
-```bash
-gh issue comment #$ARGUMENTS --body-file {temp_comment_file}
+### 5. Save Progress Summary
+Write progress summary to local file:
+```
+.claude/epics/{epic_name}/updates/$ARGUMENTS/summary_{timestamp}.md
 ```
 
 ### 6. Update Local Task File
 Get current datetime: `date -u +"%Y-%m-%dT%H:%M:%SZ"`
 
-Update the task file frontmatter with sync information:
+Update the task file frontmatter:
 ```yaml
 ---
 name: [Task Title]
 status: open
 created: [preserve existing date]
 updated: [Use REAL datetime from command above]
-github: https://github.com/{org}/{repo}/issues/$ARGUMENTS
+local_id: $ARGUMENTS
 ---
 ```
 
@@ -142,7 +133,7 @@ name: [Task Title]
 status: closed
 created: [existing date]
 updated: [current date/time]
-github: https://github.com/{org}/{repo}/issues/$ARGUMENTS
+local_id: $ARGUMENTS
 ---
 ```
 
@@ -151,7 +142,7 @@ github: https://github.com/{org}/{repo}/issues/$ARGUMENTS
 ---
 issue: $ARGUMENTS
 started: [existing date]
-last_sync: [current date/time]
+last_update: [current date/time]
 completion: 100%
 ---
 ```
@@ -164,12 +155,11 @@ status: in-progress
 created: [existing date]
 progress: [calculated percentage based on completed tasks]%
 prd: [existing path]
-github: [existing URL]
 ---
 ```
 
-### 8. Completion Comment
-If task is complete:
+### 8. Completion Summary
+If task is complete, create completion summary:
 ```markdown
 ## ✅ Task Completed - {current_date}
 
@@ -194,12 +184,12 @@ If task is complete:
 This task is ready for review and can be closed.
 
 ---
-*Task completed: 100% | Synced at {timestamp}*
+*Task completed: 100% | Updated locally at {timestamp}*
 ```
 
 ### 9. Output Summary
 ```
-☁️ Synced updates to GitHub Issue #$ARGUMENTS
+📝 Updated local progress for Issue #$ARGUMENTS
 
 📝 Update summary:
    Progress items: {progress_count}
@@ -211,55 +201,50 @@ This task is ready for review and can be closed.
    Epic progress: {epic_progress}%
    Completed criteria: {completed}/{total}
 
-🔗 View update: gh issue view #$ARGUMENTS --comments
+💾 Summary saved to: .claude/epics/{epic_name}/updates/$ARGUMENTS/summary_{timestamp}.md
 ```
 
 ### 10. Frontmatter Maintenance
 - Always update task file frontmatter with current timestamp
 - Track completion percentages in progress files
 - Update epic progress when tasks complete
-- Maintain sync timestamps for audit trail
+- Maintain update timestamps for audit trail
 
-### 11. Incremental Sync Detection
+### 11. Incremental Update Detection
 
-**Prevent Duplicate Comments:**
-1. Add sync markers to local files after each sync:
+**Prevent Duplicate Updates:**
+1. Add update markers to local files after each update:
    ```markdown
-   <!-- SYNCED: 2024-01-15T10:30:00Z -->
+   <!-- UPDATED: 2024-01-15T10:30:00Z -->
    ```
-2. Only sync content added after the last marker
-3. If no new content, skip sync with message: "No updates since last sync"
+2. Only record content added after the last marker
+3. If no new content, skip update with message: "No updates since last update"
 
-### 12. Comment Size Management
+### 12. Summary File Management
 
-**Handle GitHub's Comment Limits:**
-- Max comment size: 65,536 characters
-- If update exceeds limit:
-  1. Split into multiple comments
-  2. Or summarize with link to full details
-  3. Warn user: "⚠️ Update truncated due to size. Full details in local files."
+**Local Summary Organization:**
+- Create timestamped summary files for each update
+- Keep summary files organized by issue/task
+- Maintain chronological order for tracking progress over time
+- Clean up old summaries periodically (keep last 10 updates)
 
 ### 13. Error Handling
 
 **Common Issues and Recovery:**
 
-1. **Network Error:**
-   - Message: "❌ Failed to post comment: network error"
-   - Solution: "Check internet connection and retry"
-   - Keep local updates intact for retry
+1. **File System Error:**
+   - Message: "❌ Failed to write summary file: permission error"
+   - Solution: "Check file system permissions"
+   - Keep progress in memory for retry
 
-2. **Rate Limit:**
-   - Message: "❌ GitHub rate limit exceeded"
-   - Solution: "Wait {minutes} minutes or use different token"
-   - Save comment locally for later sync
+2. **Disk Space:**
+   - Message: "❌ Insufficient disk space for summary"
+   - Solution: "Free up disk space or clean old summaries"
+   - Warn about storage limits
 
-3. **Permission Denied:**
-   - Message: "❌ Cannot comment on issue (permission denied)"
-   - Solution: "Check repository access permissions"
-
-4. **Issue Locked:**
-   - Message: "⚠️ Issue is locked for comments"
-   - Solution: "Contact repository admin to unlock"
+3. **File Locked:**
+   - Message: "❌ Cannot write to file (file locked)"
+   - Solution: "Close other applications using the file"
 
 ### 14. Epic Progress Calculation
 
@@ -270,12 +255,12 @@ When updating epic progress:
 4. Round to nearest integer
 5. Update epic frontmatter only if percentage changed
 
-### 15. Post-Sync Validation
+### 15. Post-Update Validation
 
-After successful sync:
-- [ ] Verify comment posted on GitHub
-- [ ] Confirm frontmatter updated with sync timestamp
+After successful update:
+- [ ] Verify summary file created successfully
+- [ ] Confirm frontmatter updated with update timestamp
 - [ ] Check epic progress updated if task completed
 - [ ] Validate no data corruption in local files
 
-This creates a transparent audit trail of development progress that stakeholders can follow in real-time for Issue #$ARGUMENTS, while maintaining accurate frontmatter across all project files.
+This creates a comprehensive local audit trail of development progress for Issue #$ARGUMENTS, maintaining accurate tracking across all project files without external dependencies.

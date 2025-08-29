@@ -15,7 +15,7 @@ Reopen a closed issue.
 
 ### 1. Find Local Task File
 
-Search for task file with `github:.*issues/$ARGUMENTS` in frontmatter.
+Search for task file with `local_id: $ARGUMENTS` in frontmatter.
 If not found: "❌ No local task for issue #$ARGUMENTS"
 
 ### 2. Update Local Status

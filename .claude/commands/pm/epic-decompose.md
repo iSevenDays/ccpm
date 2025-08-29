@@ -88,7 +88,7 @@ name: [Task Title]
 status: open
 created: [Current ISO date/time]
 updated: [Current ISO date/time]
-github: [Will be updated when synced to GitHub]
+local_id: [Task number, e.g., 001]
 depends_on: []  # List of task numbers this depends on, e.g., [001, 002]
 parallel: true  # Can this run in parallel with other tasks?
 conflicts_with: []  # Tasks that modify same files, e.g., [003, 004]
@@ -136,7 +136,7 @@ Save tasks as: `.claude/epics/$ARGUMENTS/{task_number}.md`
 - **status**: Always start with "open" for new tasks
 - **created**: Get REAL current datetime by running: `date -u +"%Y-%m-%dT%H:%M:%SZ"`
 - **updated**: Use the same real datetime as created for new tasks
-- **github**: Leave placeholder text - will be updated during sync
+- **local_id**: Use the task file number for local identification (e.g., 001, 002)
 - **depends_on**: List task numbers that must complete before this can start (e.g., [001, 002])
 - **parallel**: Set to true if this can run alongside other tasks without conflicts
 - **conflicts_with**: List task numbers that modify the same files (helps coordination)
