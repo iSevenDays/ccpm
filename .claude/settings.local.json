@@ -45,7 +45,8 @@
       "Bash(grep:*)",
       "Bash(git checkout:*)",
       "Bash(git merge:*)",
-      "Bash(git branch:*)"
+      "Bash(git branch:*)",
+      "Bash(git commit:*)"
     ]
   }
 }
