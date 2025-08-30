@@ -96,6 +96,37 @@ if git rev-parse --git-dir > /dev/null 2>&1; then
     echo "  ⚠️ No remote configured"
     echo "  Add with: git remote add origin <url>"
   fi
+
+  # Configure local git exclude for .claude directory
+  echo ""
+  echo "🔒 Configuring local git ignore..."
+  if ! grep -q "^\.claude/" .git/info/exclude 2>/dev/null; then
+    mkdir -p .git/info
+    echo ".claude/" >> .git/info/exclude
+    echo "  ✅ Added .claude/ to local git exclude"
+    echo "  📝 PM files will not be committed to repository"
+  else
+    echo "  ✅ .claude/ already excluded from git"
+  fi
+
+  # Optional: Add pre-commit hook for extra protection
+  if [ ! -f ".git/hooks/pre-commit" ]; then
+    echo ""
+    echo "🛡️ Installing commit protection..."
+    cat > .git/hooks/pre-commit << 'EOF'
+#!/bin/sh
+if git diff --cached --name-only | grep -q "^\.claude/"; then
+  echo "🚫 ERROR: .claude/ files cannot be committed to repository"
+  echo "   This is a local-only project management system"
+  exit 1
+fi
+EOF
+    chmod +x .git/hooks/pre-commit
+    echo "  ✅ Pre-commit hook installed"
+    echo "  🔐 Extra protection against accidental commits"
+  else
+    echo "  ⚠️ Pre-commit hook already exists - not overwriting"
+  fi
 else
   echo "  ⚠️ Not a git repository"
   echo "  Initialize with: git init"
