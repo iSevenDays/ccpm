@@ -39,10 +39,10 @@ Do not bother the user with preflight checks progress ("I'm not going to ..."). 
 
 ## Instructions
 
-You are updating local development progress tracking for: **Issue #$ARGUMENTS**
+You are updating local development progress tracking for: **Task #$ARGUMENTS**
 
 ### 1. Gather Local Updates
-Collect all local updates for the issue:
+Collect all local updates for the task:
 - Read from `.claude/epics/{epic_name}/updates/$ARGUMENTS/`
 - Check for new content in:
   - `progress.md` - Development progress
@@ -56,7 +56,7 @@ Get current datetime: `date -u +"%Y-%m-%dT%H:%M:%SZ"`
 Update the progress.md file frontmatter:
 ```yaml
 ---
-issue: $ARGUMENTS
+task_id: $ARGUMENTS
 started: [preserve existing date]
 last_update: [Use REAL datetime from command above]
 completion: [calculated percentage 0-100%]
@@ -140,7 +140,7 @@ local_id: $ARGUMENTS
 **Progress file frontmatter**:
 ```yaml
 ---
-issue: $ARGUMENTS
+task_id: $ARGUMENTS
 started: [existing date]
 last_update: [current date/time]
 completion: 100%
@@ -189,7 +189,7 @@ This task is ready for review and can be closed.
 
 ### 9. Output Summary
 ```
-📝 Updated local progress for Issue #$ARGUMENTS
+📝 Updated local progress for Task #$ARGUMENTS
 
 📝 Update summary:
    Progress items: {progress_count}
@@ -263,4 +263,4 @@ After successful update:
 - [ ] Check epic progress updated if task completed
 - [ ] Validate no data corruption in local files
 
-This creates a comprehensive local audit trail of development progress for Issue #$ARGUMENTS, maintaining accurate tracking across all project files without external dependencies.
+This creates a comprehensive local audit trail of development progress for Task #$ARGUMENTS, maintaining accurate tracking across all project files without external dependencies.

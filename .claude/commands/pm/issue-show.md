@@ -13,21 +13,20 @@ Display issue and sub-issues with detailed information.
 
 ## Instructions
 
-You are displaying comprehensive information about a GitHub issue and related sub-issues for: **Issue #$ARGUMENTS**
+You are displaying comprehensive information about a local task for: **Task #$ARGUMENTS**
 
-### 1. Fetch Issue Data
-- Use `gh issue view #$ARGUMENTS` to get GitHub issue details
+### 1. Fetch Task Data
 - Look for local task file: first check `.claude/epics/*/$ARGUMENTS.md` (new naming)
 - If not found, search for file with `local_id: $ARGUMENTS` in frontmatter (old naming)
-- Check for related issues and sub-tasks
+- Check for related tasks and dependencies
 
-### 2. Issue Overview
-Display issue header:
+### 2. Task Overview
+Display task header:
 ```
-🎫 Issue #$ARGUMENTS: {Issue Title}
-   Status: {open/closed}
-   Labels: {labels}
-   Assignee: {assignee}
+📋 Task #$ARGUMENTS: {Task Title}
+   Status: {open/in-progress/closed}
+   Priority: {priority}
+   Epic: {epic_name}
    Created: {creation_date}
    Updated: {last_update}
    
@@ -55,13 +54,13 @@ Show related issues:
 ```
 
 ### 5. Recent Activity
-Display recent comments and updates:
+Display recent progress updates from local files:
 ```
-💬 Recent Activity:
-   {timestamp} - {author}: {comment_preview}
-   {timestamp} - {author}: {comment_preview}
+💬 Recent Updates:
+   {timestamp} - Progress: {update_summary}
+   {timestamp} - Note: {technical_note}
    
-   View full thread: gh issue view #$ARGUMENTS --comments
+   View details: cat .claude/epics/{epic}/updates/$ARGUMENTS/progress.md
 ```
 
 ### 6. Progress Tracking
@@ -78,14 +77,14 @@ If task file exists, show progress:
 ```
 🚀 Quick Actions:
    Start work: /pm:issue-start $ARGUMENTS
-   Sync updates: /pm:issue-sync $ARGUMENTS
-   Add comment: gh issue comment #$ARGUMENTS --body "your comment"
-   View in browser: gh issue view #$ARGUMENTS --web
+   Update progress: /pm:issue-sync $ARGUMENTS
+   Edit task: Read .claude/epics/{epic}/$ARGUMENTS.md, then Edit as needed
+   View epic: /pm:epic-show {epic}
 ```
 
 ### 8. Error Handling
-- Handle invalid issue numbers gracefully
-- Check for network/authentication issues
+- Handle invalid task numbers gracefully
+- Check for missing files or directories
 - Provide helpful error messages and alternatives
 
 Provide comprehensive issue information to help developers understand context and current status for Issue #$ARGUMENTS.
