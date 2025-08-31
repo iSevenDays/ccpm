@@ -2,13 +2,13 @@
 allowed-tools: Bash, Read, Write, LS, Task
 ---
 
-# Issue Start
+# Task Start
 
-Begin work on a issue with parallel agents based on work stream analysis.
+Begin work on a task with parallel agents based on work stream analysis.
 
 ## Usage
 ```
-/pm:task-start <issue_number>
+/pm:task-start <task_number>
 ```
 
 ## Quick Check
@@ -16,11 +16,11 @@ Begin work on a issue with parallel agents based on work stream analysis.
 1. **Find local task file:**
    - First check if `.claude/epics/*/$ARGUMENTS.md` exists (new naming)
    - If not found, search for file containing `local_id: $ARGUMENTS` in frontmatter (old naming)
-   - If not found: "❌ No local task for issue #$ARGUMENTS. This issue may have been created outside the PM system."
+   - If not found: "❌ No local task for task #$ARGUMENTS. This task may have been created outside the PM system."
 
 2. **Check for analysis:**
    ```bash
-   test -f .claude/epics/*/$ARGUMENTS-analysis.md || echo "❌ No analysis found for issue #$ARGUMENTS
+   test -f .claude/epics/*/$ARGUMENTS-analysis.md || echo "❌ No analysis found for task #$ARGUMENTS
    
    Run: /pm:task-analyze $ARGUMENTS first
    Or: /pm:task-start $ARGUMENTS --analyze to do both"
@@ -68,7 +68,7 @@ For each stream that can start immediately:
 Create `.claude/epics/{epic_name}/updates/$ARGUMENTS/stream-{X}.md`:
 ```markdown
 ---
-issue: $ARGUMENTS
+task: $ARGUMENTS
 stream: {stream_name}
 agent: {agent_type}
 started: {current_datetime}
@@ -90,10 +90,10 @@ status: in_progress
 Launch agent using Task tool:
 ```yaml
 Task:
-  description: "Issue #$ARGUMENTS Stream {X}"
+  description: "Task #$ARGUMENTS Stream {X}"
   subagent_type: "{agent_type}"
   prompt: |
-    You are working on Issue #$ARGUMENTS in the epic worktree.
+    You are working on Task #$ARGUMENTS in the epic worktree.
     
     Worktree location: ../epic-{epic_name}/
     Your stream: {stream_name}
@@ -105,7 +105,7 @@ Task:
     Requirements:
     1. Read full task from: .claude/epics/{epic_name}/{task_file}
     2. Work ONLY in your assigned files
-    3. Commit frequently with format: "Issue #$ARGUMENTS: {specific change}"
+    3. Commit frequently with format: "Task #$ARGUMENTS: {specific change}"
     4. Update progress in: .claude/epics/{epic_name}/updates/$ARGUMENTS/stream-{X}.md
     5. Follow coordination rules in /rules/agent-coordination.md
     
@@ -120,7 +120,7 @@ Task:
 ### 5. Output
 
 ```
-✅ Started parallel work on issue #$ARGUMENTS
+✅ Started parallel work on task #$ARGUMENTS
 
 Epic: {epic_name}
 Worktree: ../epic-{epic_name}/
@@ -147,4 +147,4 @@ If any step fails, report clearly:
 ## Important Notes
 
 Follow `/rules/datetime.md` for timestamps.
-Keep it simple - trust that GitHub and file system work.
+Keep it simple - trust that git and file system work.

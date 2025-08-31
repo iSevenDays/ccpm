@@ -82,7 +82,7 @@ $(cd .claude/epics/$ARGUMENTS && ls *.md | grep -E '^[0-9]+' | while read f; do
   echo "- $(grep '^name:' $f | cut -d: -f2)"
 done)
 
-Closes epic #$(grep 'github:' .claude/epics/$ARGUMENTS/epic.md | grep -oE '#[0-9]+')"
+Closes epic: $ARGUMENTS"
 ```
 
 ### 5. Handle Merge Conflicts
@@ -141,7 +141,7 @@ Summary:
   Branch: epic/$ARGUMENTS → main
   Commits merged: {count}
   Files changed: {count}
-  Issues closed: {count}
+  Tasks closed: {count}
   
 Cleanup completed:
   ✓ Worktree removed

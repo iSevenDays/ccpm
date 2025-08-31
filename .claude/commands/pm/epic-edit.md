@@ -58,6 +58,6 @@ View epic: /pm:epic-show $ARGUMENTS
 
 ## Important Notes
 
-Preserve frontmatter history (created, github URL, etc.).
+Preserve frontmatter history (created, updated, etc.).
 Don't change task files when editing epic.
 Follow `/rules/frontmatter-operations.md`.

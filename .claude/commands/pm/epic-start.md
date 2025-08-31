@@ -60,35 +60,35 @@ else
 fi
 ```
 
-### 2. Identify Ready Issues
+### 2. Identify Ready Tasks
 
 Read all task files in `.claude/epics/$ARGUMENTS/`:
 - Parse frontmatter for `status`, `depends_on`, `parallel` fields
 - Build dependency graph
 
-Categorize issues:
+Categorize tasks:
 - **Ready**: No unmet dependencies, not started
 - **Blocked**: Has unmet dependencies
 - **In Progress**: Already being worked on
 - **Complete**: Finished
 
-### 3. Analyze Ready Issues
+### 3. Analyze Ready Tasks
 
-For each ready issue without analysis:
+For each ready task without analysis:
 ```bash
 # Check for analysis
-if ! test -f .claude/epics/$ARGUMENTS/{issue}-analysis.md; then
-  echo "Analyzing issue #{issue}..."
+if ! test -f .claude/epics/$ARGUMENTS/{task}-analysis.md; then
+  echo "Analyzing task #{task}..."
   # Run analysis (inline or via Task tool)
 fi
 ```
 
 ### 4. Launch Parallel Agents
 
-For each ready issue with analysis:
+For each ready task with analysis:
 
 ```markdown
-## Starting Issue #{issue}: {title}
+## Starting Task #{task}: {title}
 
 Reading analysis...
 Found {count} parallel streams:
@@ -101,11 +101,11 @@ Launching agents in branch: epic/$ARGUMENTS
 Use Task tool to launch each stream:
 ```yaml
 Task:
-  description: "Issue #{issue} Stream {X}"
+  description: "Task #{task} Stream {X}"
   subagent_type: "{agent_type}"
   prompt: |
     Working in branch: epic/$ARGUMENTS
-    Issue: #{issue} - {title}
+    Issue: #{task} - {title}
     Stream: {stream_name}
 
     Your scope:
@@ -114,14 +114,14 @@ Task:
 
     Read full requirements from:
     - .claude/epics/$ARGUMENTS/{task_file}
-    - .claude/epics/$ARGUMENTS/{issue}-analysis.md
+    - .claude/epics/$ARGUMENTS/{task}-analysis.md
 
     Follow coordination rules in /rules/agent-coordination.md
     Commit frequently with message format:
-    "Issue #{issue}: {specific change}"
+    "Task #{task}: {specific change}"
 
     Update progress in:
-    .claude/epics/$ARGUMENTS/updates/{issue}/stream-{X}.md
+    .claude/epics/$ARGUMENTS/updates/{task}/stream-{X}.md
 ```
 
 ### 5. Track Active Agents
@@ -137,13 +137,13 @@ branch: epic/$ARGUMENTS
 # Execution Status
 
 ## Active Agents
-- Agent-1: Issue #1234 Stream A (Database) - Started {time}
-- Agent-2: Issue #1234 Stream B (API) - Started {time}
-- Agent-3: Issue #1235 Stream A (UI) - Started {time}
+- Agent-1: Task #1234 Stream A (Database) - Started {time}
+- Agent-2: Task #1234 Stream B (API) - Started {time}
+- Agent-3: Task #1235 Stream A (UI) - Started {time}
 
-## Queued Issues
-- Issue #1236 - Waiting for #1234
-- Issue #1237 - Waiting for #1235
+## Queued Tasks
+- Task #1236 - Waiting for #1234
+- Task #1237 - Waiting for #1235
 
 ## Completed
 - {None yet}
@@ -173,7 +173,7 @@ Merge when complete:
 ### 7. Handle Dependencies
 
 As agents complete streams:
-- Check if any blocked issues are now ready
+- Check if any blocked tasks are now ready
 - Launch new agents for newly-ready work
 - Update execution-status.md
 
@@ -184,18 +184,18 @@ As agents complete streams:
 
 Branch: epic/$ARGUMENTS
 
-Launching {total} agents across {issue_count} issues:
+Launching {total} agents across {task_count} issues:
 
-Issue #1234: Database Schema
+Task #1234: Database Schema
   ├─ Stream A: Schema creation (Agent-1) ✓ Started
   └─ Stream B: Migrations (Agent-2) ✓ Started
 
-Issue #1235: API Endpoints
+Task #1235: API Endpoints
   ├─ Stream A: User endpoints (Agent-3) ✓ Started
   ├─ Stream B: Post endpoints (Agent-4) ✓ Started
   └─ Stream C: Tests (Agent-5) ⏸ Waiting for A & B
 
-Blocked Issues (2):
+Blocked Tasks (2):
   - #1236: UI Components (depends on #1234)
   - #1237: Integration (depends on #1235, #1236)
 
@@ -207,7 +207,7 @@ Monitor with: /pm:epic-status $ARGUMENTS
 If agent launch fails:
 ```
 ❌ Failed to start Agent-{id}
-  Issue: #{issue}
+  Issue: #{task}
   Stream: {stream}
   Error: {reason}
 

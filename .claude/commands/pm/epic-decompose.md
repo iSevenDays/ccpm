@@ -110,7 +110,7 @@ Clear, concise description of what needs to be done
 - Code locations/files affected
 
 ## Dependencies
-- [ ] Task/Issue dependencies
+- [ ] Task dependencies
 - [ ] External dependencies
 
 ## Effort Estimate
@@ -218,7 +218,7 @@ After successfully creating tasks:
    - Total tasks created
    - Parallel vs sequential breakdown
    - Total estimated effort
-3. Suggest next step: "Ready to sync to GitHub? Run: /pm:epic-sync $ARGUMENTS"
+3. Suggest next step: "Ready to generate summary? Run: /pm:epic-summary $ARGUMENTS"
 
 ## Error Recovery
 

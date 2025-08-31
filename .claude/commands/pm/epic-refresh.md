@@ -29,35 +29,29 @@ progress = (closed_tasks / total_tasks) * 100
 
 Round to nearest integer.
 
-### 3. Update GitHub Task List
+### 3. Update Local Task Tracking
 
-If epic has GitHub issue, sync task checkboxes:
+Refresh local epic summary and task tracking:
 
 ```bash
-# Get epic issue number from epic.md frontmatter
-epic_issue={extract_from_github_field}
+# For each task, get current status and update local tracking
+for task_file in .claude/epics/$ARGUMENTS/[0-9]*.md; do
+  task_id=$(grep 'local_id:' $task_file | cut -d: -f2 | tr -d ' ')
+  task_status=$(grep 'status:' $task_file | cut -d: -f2 | tr -d ' ')
+  task_name=$(grep 'name:' $task_file | cut -d: -f2- | sed 's/^ *//')
+  
+  # Update task tracking files
+  if [ "$task_status" = "closed" ]; then
+    echo "✅ $task_name ($task_id)" >> /tmp/completed-tasks.txt
+  elif [ "$task_status" = "in-progress" ]; then
+    echo "🔄 $task_name ($task_id)" >> /tmp/active-tasks.txt
+  else
+    echo "⏸️ $task_name ($task_id)" >> /tmp/pending-tasks.txt
+  fi
+done
 
-if [ ! -z "$epic_issue" ]; then
-  # Get current epic body
-  gh issue view $epic_issue --json body -q .body > /tmp/epic-body.md
-  
-  # For each task, check its status and update checkbox
-  for task_file in .claude/epics/$ARGUMENTS/[0-9]*.md; do
-    task_issue=$(grep 'local_id:' $task_file | grep -oE '[0-9]+$')
-    task_status=$(grep 'status:' $task_file | cut -d: -f2 | tr -d ' ')
-    
-    if [ "$task_status" = "closed" ]; then
-      # Mark as checked
-      sed -i "s/- \[ \] #$task_issue/- [x] #$task_issue/" /tmp/epic-body.md
-    else
-      # Ensure unchecked (in case manually checked)
-      sed -i "s/- \[x\] #$task_issue/- [ ] #$task_issue/" /tmp/epic-body.md
-    fi
-  done
-  
-  # Update epic issue
-  gh issue edit $epic_issue --body-file /tmp/epic-body.md
-fi
+# Generate updated epic summary
+/pm:epic-summary $ARGUMENTS
 ```
 
 ### 4. Determine Epic Status
@@ -89,7 +83,7 @@ Tasks:
   
 Progress: {old_progress}% → {new_progress}%
 Status: {old_status} → {new_status}
-GitHub: Task list updated ✓
+Local tracking updated ✅
 
 {If complete}: Run /pm:epic-close $ARGUMENTS to close epic
 {If in progress}: Run /pm:next to see priority tasks
@@ -97,6 +91,6 @@ GitHub: Task list updated ✓
 
 ## Important Notes
 
-This is useful after manual task edits or GitHub sync.
+This is useful after manual task edits or status changes.
 Don't modify task files, only epic status.
 Preserve all other frontmatter fields.

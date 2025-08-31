@@ -2,13 +2,13 @@
 allowed-tools: Bash, Read, Write, LS
 ---
 
-# Issue Reopen
+# Task Reopen
 
-Reopen a closed issue.
+Reopen a closed task.
 
 ## Usage
 ```
-/pm:task-reopen <issue_number> [reason]
+/pm:task-reopen <task_number> [reason]
 ```
 
 ## Instructions
@@ -16,7 +16,7 @@ Reopen a closed issue.
 ### 1. Find Local Task File
 
 Search for task file with `local_id: $ARGUMENTS` in frontmatter.
-If not found: "❌ No local task for issue #$ARGUMENTS"
+If not found: "❌ No local task for task #$ARGUMENTS"
 
 ### 2. Update Local Status
 
@@ -35,19 +35,17 @@ If progress file exists:
 - Reset completion to previous value or 0%
 - Add note about reopening with reason
 
-### 4. Reopen on GitHub
+### 4. Log Reopen Reason
 
 ```bash
-# Reopen with comment
-echo "🔄 Reopening issue
+# Create reopen log entry in task updates
+mkdir -p .claude/epics/{epic_name}/updates/$ARGUMENTS
+echo "🔄 Task Reopened
 
 Reason: $ARGUMENTS
 
 ---
-Reopened at: {timestamp}" | gh issue comment $ARGUMENTS --body-file -
-
-# Reopen the issue
-gh issue reopen $ARGUMENTS
+Reopened at: {timestamp}" >> .claude/epics/{epic_name}/updates/$ARGUMENTS/reopen_log.md
 ```
 
 ### 5. Update Epic Progress
@@ -57,7 +55,7 @@ Recalculate epic progress with this task now open again.
 ### 6. Output
 
 ```
-🔄 Reopened issue #$ARGUMENTS
+🔄 Reopened task #$ARGUMENTS
   Reason: {reason_if_provided}
   Epic progress: {updated_progress}%
   

@@ -2,13 +2,13 @@
 allowed-tools: Bash, Read, Write, LS
 ---
 
-# Issue Close
+# Task Close
 
-Mark an issue as complete and close it.
+Mark a task as complete and close it.
 
 ## Usage
 ```
-/pm:task-close <issue_number> [completion_notes]
+/pm:task-close <task_number> [completion_notes]
 ```
 
 ## Instructions
@@ -17,7 +17,7 @@ Mark an issue as complete and close it.
 
 First check if `.claude/epics/*/$ARGUMENTS.md` exists (new naming).
 If not found, search for task file with `local_id: $ARGUMENTS` in frontmatter (old naming).
-If not found: "❌ No local task for issue #$ARGUMENTS"
+If not found: "❌ No local task for task #$ARGUMENTS"
 
 ### 2. Update Local Status
 
@@ -59,7 +59,7 @@ Closed at: {timestamp}"
 ### 6. Output
 
 ```
-✅ Closed issue #$ARGUMENTS
+✅ Closed task #$ARGUMENTS
   Local: Task marked complete
   Epic progress: {new_progress}% ({closed}/{total} tasks complete)
   

@@ -2,7 +2,7 @@
 allowed-tools: Bash, Read, Write, LS
 ---
 
-# Issue Edit
+# Task Edit
 
 Edit task details locally.
 

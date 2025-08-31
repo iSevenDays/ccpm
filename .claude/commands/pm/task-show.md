@@ -2,13 +2,13 @@
 allowed-tools: Bash, Read, LS
 ---
 
-# Issue Show
+# Task Show
 
-Display issue and sub-issues with detailed information.
+Display task and sub-tasks with detailed information.
 
 ## Usage
 ```
-/pm:task-show <issue_number>
+/pm:task-show <task_number>
 ```
 
 ## Instructions
@@ -31,7 +31,7 @@ Display task header:
    Updated: {last_update}
    
 📝 Description:
-{issue_description}
+{task_description}
 ```
 
 ### 3. Local File Mapping
@@ -43,10 +43,10 @@ If local task file exists:
    Last local update: {timestamp}
 ```
 
-### 4. Sub-Issues and Dependencies
-Show related issues:
+### 4. Sub-Tasks and Dependencies
+Show related tasks:
 ```
-🔗 Related Issues:
+🔗 Related Tasks:
    Parent Epic: #{epic_issue_number}
    Dependencies: #{dep1}, #{dep2}
    Blocking: #{blocked1}, #{blocked2}
@@ -87,4 +87,4 @@ If task file exists, show progress:
 - Check for missing files or directories
 - Provide helpful error messages and alternatives
 
-Provide comprehensive issue information to help developers understand context and current status for Issue #$ARGUMENTS.
+Provide comprehensive task information to help developers understand context and current status for Task #$ARGUMENTS.

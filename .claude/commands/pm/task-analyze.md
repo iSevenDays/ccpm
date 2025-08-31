@@ -2,13 +2,13 @@
 allowed-tools: Bash, Read, Write, LS
 ---
 
-# Issue Analyze
+# Task Analyze
 
-Analyze an issue to identify parallel work streams for maximum efficiency.
+Analyze a task to identify parallel work streams for maximum efficiency.
 
 ## Usage
 ```
-/pm:task-analyze <issue_number>
+/pm:task-analyze <task_number>
 ```
 
 ## Quick Check
@@ -16,7 +16,7 @@ Analyze an issue to identify parallel work streams for maximum efficiency.
 1. **Find local task file:**
    - First check if `.claude/epics/*/$ARGUMENTS.md` exists (new naming convention)
    - If not found, search for file containing `local_id: $ARGUMENTS` in frontmatter (old naming)
-   - If not found: "❌ No local task for issue #$ARGUMENTS. Run: /pm:import first"
+   - If not found: "❌ No local task for task #$ARGUMENTS. Run: /pm:import first"
 
 2. **Check for existing analysis:**
    ```bash
@@ -25,7 +25,7 @@ Analyze an issue to identify parallel work streams for maximum efficiency.
 
 ## Instructions
 
-### 1. Read Issue Context
+### 1. Read Task Context
 
 Read local task file to understand:
 - Technical requirements
@@ -35,7 +35,7 @@ Read local task file to understand:
 
 ### 2. Identify Parallel Work Streams
 
-Analyze the issue to identify independent work that can run in parallel:
+Analyze the task to identify independent work that can run in parallel:
 
 **Common Patterns:**
 - **Database Layer**: Schema, migrations, models
@@ -59,14 +59,14 @@ Create `.claude/epics/{epic_name}/$ARGUMENTS-analysis.md`:
 
 ```markdown
 ---
-issue: $ARGUMENTS
-title: {issue_title}
+task: $ARGUMENTS
+title: {task_title}
 analyzed: {current_datetime}
 estimated_hours: {total_hours}
 parallelization_factor: {1.0-5.0}
 ---
 
-# Parallel Work Analysis: Issue #$ARGUMENTS
+# Parallel Work Analysis: Task #$ARGUMENTS
 
 ## Overview
 {Brief description of what needs to be done}
@@ -154,7 +154,7 @@ Ensure:
 ### 5. Output
 
 ```
-✅ Analysis complete for issue #$ARGUMENTS
+✅ Analysis complete for task #$ARGUMENTS
 
 Identified {count} parallel work streams:
   Stream A: {name} ({hours}h)

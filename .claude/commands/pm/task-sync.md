@@ -2,13 +2,13 @@
 allowed-tools: Bash, Read, Write, LS
 ---
 
-# Issue Progress Update
+# Task Progress Update
 
 Update local progress tracking and create comprehensive progress summary.
 
 ## Usage
 ```
-/pm:task-sync <issue_number>
+/pm:task-sync <task_number>
 ```
 
 ## Required Rules
@@ -23,7 +23,7 @@ Do not bother the user with preflight checks progress ("I'm not going to ..."). 
 
 1. **Local Updates Check:**
    - Check if `.claude/epics/*/updates/$ARGUMENTS/` directory exists
-   - If not found, tell user: "❌ No local updates found for issue #$ARGUMENTS. Run: /pm:task-start $ARGUMENTS"
+   - If not found, tell user: "❌ No local updates found for task #$ARGUMENTS. Run: /pm:task-start $ARGUMENTS"
    - Check if progress.md exists
    - If not, tell user: "❌ No progress tracking found. Initialize with: /pm:task-start $ARGUMENTS"
 

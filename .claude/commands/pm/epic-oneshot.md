@@ -83,8 +83,8 @@ Ready for development!
 
 This is simply a convenience wrapper that runs:
 1. `/pm:epic-decompose` 
-2. `/pm:epic-sync`
+2. `/pm:epic-summary`
 
 Both commands handle their own error checking, parallel execution, and validation. This command just orchestrates them in sequence.
 
-Use this when you're confident the epic is ready and want to go from epic to GitHub issues in one step.
+Use this when you're confident the epic is ready and want to go from epic to task summary in one step.
