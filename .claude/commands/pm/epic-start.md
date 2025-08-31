@@ -18,20 +18,18 @@ Launch parallel agents to work on epic tasks in a shared branch.
    test -f .claude/epics/$ARGUMENTS/epic.md || echo "❌ Epic not found. Run: /pm:prd-parse $ARGUMENTS"
    ```
 
-2. **Check GitHub sync:**
-   Look for `github:` field in epic frontmatter.
-   If missing: "❌ Epic not synced. Run: /pm:epic-sync $ARGUMENTS first"
-
-3. **Check for branch:**
+2. **Check for branch:**
    ```bash
    git branch -a | grep "epic/$ARGUMENTS"
    ```
 
-4. **Check for uncommitted changes:**
+3. **Check for uncommitted changes in work repo:**
    ```bash
+   # Run from project root, not .claude directory
+   cd "$(git rev-parse --show-toplevel)"
    git status --porcelain
    ```
-   If output is not empty: "❌ You have uncommitted changes. Please commit or stash them before starting an epic"
+   If output is not empty: "❌ You have uncommitted changes. Commit them (git add . && git commit -m \"msg\") or stash them (git stash push -m \"work in progress\") before starting the epic."
 
 ## Instructions
 
@@ -40,9 +38,11 @@ Launch parallel agents to work on epic tasks in a shared branch.
 Follow `/rules/branch-operations.md`:
 
 ```bash
-# Check for uncommitted changes
+# Check for uncommitted changes in work repository (not .claude repo)
+work_root=$(git rev-parse --show-toplevel)
+cd "$work_root"
 if [ -n "$(git status --porcelain)" ]; then
-  echo "❌ You have uncommitted changes. Please commit or stash them before starting an epic."
+  echo "❌ You have uncommitted changes. Commit them (git add . && git commit -m \"msg\") or stash them (git stash push -m \"work in progress\") before starting the epic."
   exit 1
 fi
 
