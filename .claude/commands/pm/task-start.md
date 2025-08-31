@@ -8,7 +8,7 @@ Begin work on a issue with parallel agents based on work stream analysis.
 
 ## Usage
 ```
-/pm:issue-start <issue_number>
+/pm:task-start <issue_number>
 ```
 
 ## Quick Check
@@ -22,8 +22,8 @@ Begin work on a issue with parallel agents based on work stream analysis.
    ```bash
    test -f .claude/epics/*/$ARGUMENTS-analysis.md || echo "❌ No analysis found for issue #$ARGUMENTS
    
-   Run: /pm:issue-analyze $ARGUMENTS first
-   Or: /pm:issue-start $ARGUMENTS --analyze to do both"
+   Run: /pm:task-analyze $ARGUMENTS first
+   Or: /pm:task-start $ARGUMENTS --analyze to do both"
    ```
    If no analysis exists and no --analyze flag, stop execution.
 
@@ -134,7 +134,7 @@ Progress tracking:
   .claude/epics/{epic_name}/updates/$ARGUMENTS/
 
 Monitor with: /pm:epic-status {epic_name}
-Sync updates: /pm:issue-sync $ARGUMENTS
+Sync updates: /pm:task-sync $ARGUMENTS
 ```
 
 ## Error Handling

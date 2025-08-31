@@ -8,7 +8,7 @@ Mark an issue as complete and close it.
 
 ## Usage
 ```
-/pm:issue-close <issue_number> [completion_notes]
+/pm:task-close <issue_number> [completion_notes]
 ```
 
 ## Instructions

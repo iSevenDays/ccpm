@@ -8,7 +8,7 @@ Edit issue details locally and on GitHub.
 
 ## Usage
 ```
-/pm:issue-edit <issue_number>
+/pm:task-edit <issue_number>
 ```
 
 ## Instructions

@@ -8,7 +8,7 @@ Display issue and sub-issues with detailed information.
 
 ## Usage
 ```
-/pm:issue-show <issue_number>
+/pm:task-show <issue_number>
 ```
 
 ## Instructions
@@ -76,8 +76,8 @@ If task file exists, show progress:
 ### 7. Quick Actions
 ```
 🚀 Quick Actions:
-   Start work: /pm:issue-start $ARGUMENTS
-   Update progress: /pm:issue-sync $ARGUMENTS
+   Start work: /pm:task-start $ARGUMENTS
+   Update progress: /pm:task-sync $ARGUMENTS
    Edit task: Read .claude/epics/{epic}/$ARGUMENTS.md, then Edit as needed
    View epic: /pm:epic-show {epic}
 ```

@@ -8,7 +8,7 @@ Analyze an issue to identify parallel work streams for maximum efficiency.
 
 ## Usage
 ```
-/pm:issue-analyze <issue_number>
+/pm:task-analyze <issue_number>
 ```
 
 ## Quick Check
@@ -168,7 +168,7 @@ Parallelization potential: {factor}x speedup
 Files at risk of conflict:
   {list shared files if any}
 
-Next: Start work with /pm:issue-start $ARGUMENTS
+Next: Start work with /pm:task-start $ARGUMENTS
 ```
 
 ## Important Notes

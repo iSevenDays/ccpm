@@ -8,7 +8,7 @@ Update local progress tracking and create comprehensive progress summary.
 
 ## Usage
 ```
-/pm:issue-sync <issue_number>
+/pm:task-sync <issue_number>
 ```
 
 ## Required Rules
@@ -23,9 +23,9 @@ Do not bother the user with preflight checks progress ("I'm not going to ..."). 
 
 1. **Local Updates Check:**
    - Check if `.claude/epics/*/updates/$ARGUMENTS/` directory exists
-   - If not found, tell user: "❌ No local updates found for issue #$ARGUMENTS. Run: /pm:issue-start $ARGUMENTS"
+   - If not found, tell user: "❌ No local updates found for issue #$ARGUMENTS. Run: /pm:task-start $ARGUMENTS"
    - Check if progress.md exists
-   - If not, tell user: "❌ No progress tracking found. Initialize with: /pm:issue-start $ARGUMENTS"
+   - If not, tell user: "❌ No progress tracking found. Initialize with: /pm:task-start $ARGUMENTS"
 
 2. **Check Last Update:**
    - Read `last_update` from progress.md frontmatter
