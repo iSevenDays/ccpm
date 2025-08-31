@@ -47,7 +47,7 @@ If local task file exists:
 Show related tasks:
 ```
 🔗 Related Tasks:
-   Parent Epic: #{epic_issue_number}
+   Parent Epic: #{epic_task_number}
    Dependencies: #{dep1}, #{dep2}
    Blocking: #{blocked1}, #{blocked2}
    Sub-tasks: #{sub1}, #{sub2}

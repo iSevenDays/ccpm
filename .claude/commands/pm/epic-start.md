@@ -105,7 +105,7 @@ Task:
   subagent_type: "{agent_type}"
   prompt: |
     Working in branch: epic/$ARGUMENTS
-    Issue: #{task} - {title}
+    Task: #{task} - {title}
     Stream: {stream_name}
 
     Your scope:
@@ -184,7 +184,7 @@ As agents complete streams:
 
 Branch: epic/$ARGUMENTS
 
-Launching {total} agents across {task_count} issues:
+Launching {total} agents across {task_count} tasks:
 
 Task #1234: Database Schema
   ├─ Stream A: Schema creation (Agent-1) ✓ Started
@@ -207,7 +207,7 @@ Monitor with: /pm:epic-status $ARGUMENTS
 If agent launch fails:
 ```
 ❌ Failed to start Agent-{id}
-  Issue: #{task}
+  Task: #{task}
   Stream: {stream}
   Error: {reason}
 

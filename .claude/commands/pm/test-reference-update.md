@@ -62,9 +62,9 @@ EOF
 
 ### 2. Create Mappings
 
-Simulate the issue creation mappings:
+Simulate the task creation mappings:
 ```bash
-# Simulate task -> issue number mapping
+# Simulate task -> task number mapping
 cat > /tmp/task-mapping.txt << 'EOF'
 001.md:42
 002.md:43
