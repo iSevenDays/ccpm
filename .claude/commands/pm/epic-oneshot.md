@@ -4,7 +4,7 @@ allowed-tools: Read, LS
 
 # Epic Oneshot
 
-Decompose epic into tasks and sync to GitHub in one operation.
+Decompose epic into tasks and generate summary in one operation.
 
 ## Usage
 ```
@@ -23,14 +23,14 @@ test -f .claude/epics/$ARGUMENTS/epic.md || echo "❌ Epic not found. Run: /pm:p
 # Check for existing tasks
 if ls .claude/epics/$ARGUMENTS/[0-9]*.md 2>/dev/null | grep -q .; then
   echo "⚠️ Tasks already exist. This will create duplicates."
-  echo "Delete existing tasks or use /pm:epic-sync instead."
+  echo "Delete existing tasks or use /pm:epic-summary instead."
   exit 1
 fi
 
 # Check if already synced
 if grep -q "local_id:" .claude/epics/$ARGUMENTS/epic.md; then
-  echo "⚠️ Epic already synced to GitHub."
-  echo "Use /pm:epic-sync to update."
+  echo "⚠️ Epic already processed."
+  echo "Use /pm:epic-summary to update."
   exit 1
 fi
 ```
@@ -47,18 +47,18 @@ This will:
 - Create task files (using parallel agents if appropriate)
 - Update epic with task summary
 
-### 3. Execute Sync
+### 3. Generate Summary
 
-Immediately follow with sync:
+Immediately follow with summary:
 ```
-Running: /pm:epic-sync $ARGUMENTS
+Running: /pm:epic-summary $ARGUMENTS
 ```
 
 This will:
-- Create epic issue on GitHub
-- Create sub-issues (using parallel agents if appropriate)
-- Rename task files to issue IDs
-- Create worktree
+- Generate comprehensive epic report
+- Analyze task progress and dependencies
+- Create local summary files
+- Create worktree for epic development
 
 ### 4. Output
 
@@ -68,10 +68,11 @@ This will:
 Step 1: Decomposition ✓
   - Tasks created: {count}
   
-Step 2: GitHub Sync ✓
-  - Epic: #{number}
-  - Sub-issues created: {count}
+Step 2: Summary Generated ✓
+  - Epic progress: {progress}%
+  - Tasks analyzed: {count}
   - Worktree: ../epic-$ARGUMENTS
+  - Summary saved: .claude/epics/$ARGUMENTS/summaries/
 
 Ready for development!
   Start work: /pm:epic-start $ARGUMENTS

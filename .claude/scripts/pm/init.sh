@@ -132,23 +132,6 @@ else
   echo "  Initialize with: git init"
 fi
 
-# Set up version control for PM system
-echo ""
-echo "📚 Setting up PM system version control..."
-cd .claude
-if [ ! -d ".git" ]; then
-  git init
-  git add .
-  git commit -m "Initialize PM system from template"
-  echo "  ✅ Git repository created in .claude/"
-  echo "  💡 Optional: Add backup remote with:"
-  echo "     cd .claude && git remote add origin <your-personal-repo-url>"
-  echo "     git push -u origin main"
-else
-  echo "  ✅ Git repository already exists in .claude/"
-fi
-cd ..
-
 # Create CLAUDE.md if it doesn't exist
 if [ ! -f "CLAUDE.md" ]; then
   echo ""

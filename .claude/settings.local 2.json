@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(for file in issue-*.md)",
+      "Bash(done)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

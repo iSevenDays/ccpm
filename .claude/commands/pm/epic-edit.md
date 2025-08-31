@@ -38,15 +38,12 @@ Update epic.md:
 - Apply user's edits to content
 - Update `updated` field with current datetime
 
-### 4. Option to Update GitHub
+### 4. Update Local Tracking
 
-If epic has GitHub URL in frontmatter:
-Ask: "Update GitHub issue? (yes/no)"
-
-If yes:
-```bash
-gh issue edit {issue_number} --body-file .claude/epics/$ARGUMENTS/epic.md
-```
+Update epic progress and status:
+- Recalculate completion percentage based on tasks
+- Update epic summary if needed
+- Refresh local tracking files
 
 ### 5. Output
 
@@ -54,7 +51,7 @@ gh issue edit {issue_number} --body-file .claude/epics/$ARGUMENTS/epic.md
 ✅ Updated epic: $ARGUMENTS
   Changes made to: {sections_edited}
   
-{If GitHub updated}: GitHub issue updated ✅
+Local tracking updated ✅
 
 View epic: /pm:epic-show $ARGUMENTS
 ```

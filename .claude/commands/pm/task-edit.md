@@ -4,23 +4,21 @@ allowed-tools: Bash, Read, Write, LS
 
 # Issue Edit
 
-Edit issue details locally and on GitHub.
+Edit task details locally.
 
 ## Usage
 ```
-/pm:task-edit <issue_number>
+/pm:task-edit <task_number>
 ```
 
 ## Instructions
 
-### 1. Get Current Issue State
+### 1. Get Current Task State
 
 ```bash
-# Get from GitHub
-gh issue view $ARGUMENTS --json title,body,labels
-
 # Find local task file
-# Search for file with local_id: $ARGUMENTS
+# Search for file with local_id: $ARGUMENTS in frontmatter
+# Or check .claude/epics/*/$ARGUMENTS.md
 ```
 
 ### 2. Interactive Edit
@@ -41,36 +39,25 @@ Update task file with changes:
 - Update body content if description changed
 - Update `updated` field with current datetime
 
-### 4. Update GitHub
+### 4. Update Local Tracking
 
-If title changed:
-```bash
-gh issue edit $ARGUMENTS --title "{new_title}"
-```
-
-If body changed:
-```bash
-gh issue edit $ARGUMENTS --body-file {updated_task_file}
-```
-
-If labels changed:
-```bash
-gh issue edit $ARGUMENTS --add-label "{new_labels}"
-gh issue edit $ARGUMENTS --remove-label "{removed_labels}"
-```
+Update local task tracking:
+- Recalculate epic progress if task status changed
+- Update task dependencies if affected
+- Refresh local progress summaries
 
 ### 5. Output
 
 ```
-✅ Updated issue #$ARGUMENTS
+✅ Updated task #$ARGUMENTS
   Changes:
     {list_of_changes_made}
   
-Synced to GitHub: ✅
+Local tracking updated: ✅
 ```
 
 ## Important Notes
 
-Always update local first, then GitHub.
+All operations are local-only.
 Preserve frontmatter fields not being edited.
 Follow `/rules/frontmatter-operations.md`.
