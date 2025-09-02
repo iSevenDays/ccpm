@@ -4,7 +4,19 @@
       "Bash(find:*)",
       "Bash(sed:*)",
       "Bash(bash:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Read(/tmp/test-claude/commands/pm/**)",
+      "Read(/tmp/test-claude/commands/pm/**)",
+      "Read(/private/tmp/test-claude/commands/pm/**)",
+      "Bash(cp:*)",
+      "Bash(rm:*)",
+      "Read(/tmp/**)",
+      "WebSearch",
+      "Read(/tmp/**)",
+      "Read(/tmp/**)",
+      "WebFetch(domain:github.com)",
+      "Bash(mkdir:*)",
+      "Bash(.claude/scripts/pm/next.sh:*)"
     ],
     "deny": [],
     "ask": []

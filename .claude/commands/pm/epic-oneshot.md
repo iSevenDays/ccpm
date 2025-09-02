@@ -1,10 +1,10 @@
 ---
-allowed-tools: Read, LS
+allowed-tools: Bash, Read, Write, LS, Task
 ---
 
 # Epic Oneshot
 
-Decompose epic into tasks and generate summary in one operation.
+Decompose epic into issues and generate summary in one operation.
 
 ## Usage
 ```
@@ -37,28 +37,37 @@ fi
 
 ### 2. Execute Decompose
 
-Simply run the decompose command:
-```
-Running: /pm:epic-decompose $ARGUMENTS
-```
-
-This will:
-- Read the epic
-- Create task files (using parallel agents if appropriate)
-- Update epic with task summary
+Task:
+  description: "Decompose epic into tasks"
+  subagent_type: "general-purpose"
+  prompt: |
+    Execute epic decomposition for: $ARGUMENTS
+    
+    Follow the complete epic-decompose workflow:
+    1. Validate epic exists at .claude/epics/$ARGUMENTS/epic.md
+    2. Check for existing tasks
+    3. Create task files with proper frontmatter
+    4. Update epic with task summary
+    
+    Use Read/Write/Bash tools as needed.
+    Return: Summary of tasks created
 
 ### 3. Generate Summary
 
-Immediately follow with summary:
-```
-Running: /pm:epic-summary $ARGUMENTS
-```
-
-This will:
-- Generate comprehensive epic report
-- Analyze task progress and dependencies
-- Create local summary files
-- Create worktree for epic development
+Task:
+  description: "Generate epic summary"
+  subagent_type: "general-purpose"
+  prompt: |
+    Generate comprehensive local summary for: $ARGUMENTS
+    
+    Follow the complete epic-summary workflow:
+    1. Create epic statistics
+    2. Generate task breakdowns
+    3. Create progress reports
+    4. Update epic frontmatter
+    
+    Use Read/Write/Bash tools as needed.
+    Return: Summary file location and statistics
 
 ### 4. Output
 
@@ -76,7 +85,7 @@ Step 2: Summary Generated ✓
 
 Ready for development!
   Start work: /pm:epic-start $ARGUMENTS
-  Or single task: /pm:task-start {task_number}
+  Or single issue: /pm:issue-start {issue_number}
 ```
 
 ## Important Notes

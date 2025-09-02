@@ -2,21 +2,21 @@
 allowed-tools: Bash, Read, Write, LS
 ---
 
-# Task Analyze
+# Issue Analyze
 
-Analyze a task to identify parallel work streams for maximum efficiency.
+Analyze an issue to identify parallel work streams for maximum efficiency.
 
 ## Usage
 ```
-/pm:task-analyze <task_number>
+/pm:issue-analyze <issue_number>
 ```
 
 ## Quick Check
 
-1. **Find local task file:**
+1. **Find local issue file:**
    - First check if `.claude/epics/*/$ARGUMENTS.md` exists (new naming convention)
    - If not found, search for file containing `local_id: $ARGUMENTS` in frontmatter (old naming)
-   - If not found: "❌ No local task for task #$ARGUMENTS. Run: /pm:import first"
+   - If not found: "❌ No local issue for issue #$ARGUMENTS. Run: /pm:import first"
 
 2. **Check for existing analysis:**
    ```bash
@@ -25,9 +25,24 @@ Analyze a task to identify parallel work streams for maximum efficiency.
 
 ## Instructions
 
-### 1. Read Task Context
+**🎯 FOCUS: Use available tools efficiently - avoid excessive searching!**
 
-Read local task file to understand:
+**Available Tools:**
+- `Read` - Read issue files directly
+- `Write` - Create analysis file
+- `Bash` - Get timestamps and paths
+- `LS` - List directories when needed
+
+### 1. Find and Read Issue File
+
+**Direct approach - no extensive searching:**
+
+```bash  
+# Find issue file efficiently
+find .claude/epics -name "$ARGUMENTS.md" -o -name "tasks/$ARGUMENTS.md" | head -1
+```
+
+Then read the issue file to understand:
 - Technical requirements
 - Acceptance criteria
 - Dependencies
@@ -35,7 +50,7 @@ Read local task file to understand:
 
 ### 2. Identify Parallel Work Streams
 
-Analyze the task to identify independent work that can run in parallel:
+Analyze the issue to identify independent work that can run in parallel:
 
 **Common Patterns:**
 - **Database Layer**: Schema, migrations, models
@@ -53,20 +68,27 @@ Analyze the task to identify independent work that can run in parallel:
 
 ### 3. Create Analysis File
 
-Get current datetime: `date -u +"%Y-%m-%dT%H:%M:%SZ"`
+**Use Write tool to create analysis file directly:**
 
-Create `.claude/epics/{epic_name}/$ARGUMENTS-analysis.md`:
+```bash
+# Get timestamp  
+CURRENT_DATETIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+# Determine epic directory from issue file location
+EPIC_DIR=$(dirname "$(find .claude/epics -name "$ARGUMENTS.md" | head -1)")
+```
+
+**Write analysis file with concrete streams (not templates):**
 
 ```markdown
 ---
-task: $ARGUMENTS
-title: {task_title}
+issue: $ARGUMENTS
+title: {issue_title}
 analyzed: {current_datetime}
 estimated_hours: {total_hours}
 parallelization_factor: {1.0-5.0}
 ---
 
-# Parallel Work Analysis: Task #$ARGUMENTS
+# Parallel Work Analysis: Issue #$ARGUMENTS
 
 ## Overview
 {Brief description of what needs to be done}
@@ -78,7 +100,7 @@ parallelization_factor: {1.0-5.0}
 **Files**:
 - {file_pattern_1}
 - {file_pattern_2}
-**Agent Type**: {backend|frontend|fullstack|database}-specialist
+**Agent Type**: {code-analyzer|file-analyzer|test-runner|parallel-worker}
 **Can Start**: immediately
 **Estimated Hours**: {hours}
 **Dependencies**: none
@@ -154,7 +176,7 @@ Ensure:
 ### 5. Output
 
 ```
-✅ Analysis complete for task #$ARGUMENTS
+✅ Analysis complete for issue #$ARGUMENTS
 
 Identified {count} parallel work streams:
   Stream A: {name} ({hours}h)
@@ -168,7 +190,7 @@ Parallelization potential: {factor}x speedup
 Files at risk of conflict:
   {list shared files if any}
 
-Next: Start work with /pm:task-start $ARGUMENTS
+Next: Start work with /pm:issue-start $ARGUMENTS
 ```
 
 ## Important Notes

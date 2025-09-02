@@ -1,5 +1,5 @@
 ---
-allowed-tools: Read, Write, LS
+allowed-tools: Bash, Read, Write, LS
 ---
 
 # Epic Edit
